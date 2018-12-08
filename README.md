@@ -1,8 +1,9 @@
-#Photon Reflection
+# Photon Reflection #
+
 Photon starts moving to the right from point `(0.50, 0.26)` in a grid lattice with a spherical mirror in each point (`R=1/3`). 
 The speed of a photon is `1 point per second`. Where will the photon be located after `20 seconds`?
 
-##Photon reflections and final result##
+## Photon reflections and final result ##
 
     (0.500000, 0.260000)
     (0.791407, 0.260000)
@@ -29,7 +30,7 @@ The speed of a photon is `1 point per second`. Where will the photon be located 
     20.000000
 
 
-##Result dependency on precision##
+## Result dependency on precision ##
 
     N = 50000 => (+4.094557, -0.360327)
     N = 24    => (+4.094557, -0.360327)
