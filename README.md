@@ -1,9 +1,9 @@
 # Photon Reflection #
 
-Photon starts moving to the right from point `(0.50, 0.26)` in a grid lattice with a circular mirror in each point (`R=1/3`). 
+Photon starts moving to the right from point `(0.50, 0.26)` in a grid lattice with a circular mirror in each point (`R=1/3`) - see [Visualization](https://github.com/LMesaric/PhotonReflection#visualization). 
 The speed of a photon is `1 point per second`. Where will the photon be located after `20 seconds`?
 
-Solving this problem comes down to calculating the reflected line after interaction with the circle, all in high precision. 
+Solving this problem comes down to calculating the reflected line after interaction with the circle. All calculations must be done with very high precision. 
 
 
 ## Photon reflections and final result ##
