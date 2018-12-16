@@ -83,7 +83,7 @@ class PhotonDemo(private var position: Point, private var trajectory: Line, priv
     /**
      * Cumulative travelled distance. Less than [D].
      */
-    var travelledDistance: BigDecimal = BigDecimal.ZERO
+    private var travelledDistance: BigDecimal = BigDecimal.ZERO
 
     /**
      * Last circle from which the photon was reflected.
@@ -100,17 +100,22 @@ class PhotonDemo(private var position: Point, private var trajectory: Line, priv
         /**
          * Velocity, measured in points / second.
          */
-        val V: BigDecimal = BigDecimal.ONE
+        private val V: BigDecimal = BigDecimal.ONE
 
         /**
          * Timeout, measured in seconds.
          */
-        val T: BigDecimal = BigDecimal(20)
+        private val T: BigDecimal = BigDecimal(20)
 
         /**
          * Maximum distance, measured in points.
          */
         val D: BigDecimal = V * T
+
+        /**
+         * Iteration distance used in ray casting.
+         */
+        private val ITER_DIST = BigDecimal("0.2")
     }
 
     private fun distanceFromCenter(line: Line, circle: Circle): BigDecimal {
@@ -249,8 +254,6 @@ class PhotonDemo(private var position: Point, private var trajectory: Line, priv
     fun run() {
         println(position.toShortString())
 
-        val moveDistIter = R / BigDecimal(10)
-
         while (true) {
             val moveX = if (trajectory.B == BigDecimal.ZERO) {
                 false
@@ -285,7 +288,7 @@ class PhotonDemo(private var position: Point, private var trajectory: Line, priv
                 }
 
                 if (moveX) {
-                    tmpPosition.x += moveDistIter * BigDecimal(direction)
+                    tmpPosition.x += ITER_DIST * BigDecimal(direction)
                     tmpPosition.y = trajectory.getY(tmpPosition.x)!!
                 } else {
                     val directionModification = when {
@@ -294,7 +297,7 @@ class PhotonDemo(private var position: Point, private var trajectory: Line, priv
                         else -> -direction
                     }
 
-                    tmpPosition.y += moveDistIter * BigDecimal(directionModification)
+                    tmpPosition.y += ITER_DIST * BigDecimal(directionModification)
                     tmpPosition.x = trajectory.getX(tmpPosition.y)!!
                 }
             }
