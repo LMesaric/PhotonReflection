@@ -115,7 +115,7 @@ class PhotonDemo(private var position: Point, private var trajectory: Line, priv
         /**
          * Iteration distance used in ray casting.
          */
-        private val ITER_DIST = BigDecimal("0.2")
+        private val ITER_DIST = BigDecimal("0.4")
     }
 
     private fun distanceFromCenter(line: Line, circle: Circle): BigDecimal {
