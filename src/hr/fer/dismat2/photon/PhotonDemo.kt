@@ -9,6 +9,7 @@ import java.math.RoundingMode
  * Global calculation precision.
  */
 const val PRECISION = 100
+
 /**
  * Global [MathContext] with specified `precision`.
  */
@@ -33,9 +34,11 @@ data class Point(var x: BigDecimal, var y: BigDecimal) {
 
 /**
  * Models a simple line in high precision.
- * Formulated as `A*x + B*y + C = 0`
+ *
+ * Formulated as `A*x + B*y + C = 0.`
  */
 data class Line(var A: BigDecimal, var B: BigDecimal, var C: BigDecimal) {
+
     fun getX(y: BigDecimal): BigDecimal? {
         if (A == BigDecimal.ZERO) {
             return null
@@ -118,6 +121,11 @@ class PhotonDemo(private var position: Point, private var trajectory: Line, priv
         private val ITER_DIST = BigDecimal("0.4")
     }
 
+    /**
+     * Calculates shortest distance from [line] to center `(x,y)` of [circle].
+     *
+     * `d = (Ax+By+C)/sqrt(A^2+B^2)`
+     */
     private fun distanceFromCenter(line: Line, circle: Circle): BigDecimal {
         val numeratorTmp = line.A * circle.center.x + line.B * circle.center.y + line.C
         val denominatorTmp = line.A * line.A + line.B * line.B
@@ -147,6 +155,7 @@ class PhotonDemo(private var position: Point, private var trajectory: Line, priv
         val x = circle.center.x
         val y = circle.center.y
 
+        // Caching squares
         val a2 = a * a
         val b2 = b * b
         val c2 = c * c
@@ -154,6 +163,8 @@ class PhotonDemo(private var position: Point, private var trajectory: Line, priv
 
         val two = BigDecimal(2)
 
+        // Some serious black magic - calculated symbolically using Matlab.
+        // Exact intersections of Ax + By + C = 0 with (x-p)^2 + (y-q)^2 = R^2.
         val tmp1 = a2 * r2
         val tmp2 = a2 * x * x
         val tmp3 = a * b * x * y * two
@@ -165,7 +176,7 @@ class PhotonDemo(private var position: Point, private var trajectory: Line, priv
         val tmp9 = a2 + b2
         val tmp10 = a * a * y - b * c - a * b * x
 
-        val tmpUnderRoot = tmp1 - tmp2 - tmp3 - tmp4 + tmp5 - tmp6 - tmp7 - c2  // some serious black magic
+        val tmpUnderRoot = tmp1 - tmp2 - tmp3 - tmp4 + tmp5 - tmp6 - tmp7 - c2
         val tmpRoot = tmpUnderRoot.sqrt(MC)
 
         val x1 = -(b * tmpRoot - tmp8) / tmp9
@@ -195,7 +206,7 @@ class PhotonDemo(private var position: Point, private var trajectory: Line, priv
         val dist0 = distanceBetweenPoints(position, twoIntersections[0])
         val dist1 = distanceBetweenPoints(position, twoIntersections[1])
 
-        val intersection: Point = twoIntersections[if (dist0 < dist1) 0 else 1]
+        val intersection: Point = twoIntersections[if (dist0 < dist1) 0 else 1]     // closer of two intersections
 
         println(intersection.toShortString())
 
@@ -221,6 +232,9 @@ class PhotonDemo(private var position: Point, private var trajectory: Line, priv
             println("Covered distance: \n$travelledDistance")
             exit(0)
         }
+
+        // Reflect the current position over the normal line of the circle.
+        // Reflected line is determined by that reflection and the point of intersection.
 
         val xR = circle.center.x
         val yR = circle.center.y
