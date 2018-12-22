@@ -87,3 +87,7 @@ Let us increase the time frame from `t=20s` to `t=200s`, keeping all other param
 At that exact moment the photon will be positioned over point `(-15.454298, -7.616898)`. 
 This result will be consistently achieved for `N=140` and higher. It is quite obvious that using double precision
 will produce completely unpredictable outcomes. 
+
+## Related Projects
+- [Photon](https://github.com/mlazaric/Photon) by [@mlazaric](https://github.com/mlazaric)
+ 
